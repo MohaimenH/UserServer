@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/users")
 public class UserController {
 
@@ -18,8 +19,9 @@ public class UserController {
 
     @PostMapping("/")
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        User createdUser = userFacade.createUser(user);
-        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+        try { User createdUser = userFacade.createUser(user);  return new ResponseEntity<>(createdUser, HttpStatus.CREATED); } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
     }
 
     @GetMapping("/{uuid}")
